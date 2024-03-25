@@ -182,9 +182,8 @@ def line_3():
     # Comparativo Anual
     # config        
     colors_comp = ['#149000', '#f0dc00']
-    colors_fonts= ['white', 'black']
-    markers = colors_comp
     years = df_comparativo_geral['ANO'].unique()
+    mode= 'lines+markers+text'
 
     states = df_comparativo_states['NM_ESTADO'].sort_values().unique().tolist()
     states.insert(0, 'TODOS')
@@ -216,23 +215,20 @@ def line_3():
     # Condição estado == todos
     if state_select == 'TODOS':
 
-        comp_graph = go.Figure(
-        data= [
-            go.Bar(
-                x= df_comparativo_geral[(df_comparativo_geral['ANO'] == year) & (df_comparativo_geral['PRODUTO'] == produto)]['NM_MES'],
-                y= df_comparativo_geral[(df_comparativo_geral['ANO'] == year) & (df_comparativo_geral['PRODUTO'] == produto)]['VL_MEDIO_VENDA'],
-                marker_color= marker,
-                text = df_comparativo_geral[(df_comparativo_geral['ANO'] == year) & (df_comparativo_geral['PRODUTO'] == produto)]['VL_MEDIO_VENDA'],
-                texttemplate= '%{y}',
-                hoverinfo= 'skip',
-                outsidetextfont= dict(color= color),
-                insidetextfont= dict(color= color_font),
-                textfont= dict(size= 11),
-                name = '{}'.format(year)
-                
-            ) for year, marker, color, color_font in zip(years, markers, colors_comp, colors_fonts)
-        ]
-    )
+        # 2022
+        comp_graph = go.Figure()
+
+        comp_graph.add_trace(
+            go.Scatter(
+                x= df_comparativo_geral[(df_comparativo_geral['ANO'] == years[0]) & (df_comparativo_geral['PRODUTO'] == produto)]['NM_MES'],
+                y= df_comparativo_geral[(df_comparativo_geral['ANO'] == years[0]) & (df_comparativo_geral['PRODUTO'] == produto)]['VL_MEDIO_VENDA'],
+                marker_color= colors_comp[0],
+                hovertext = "R$ " + df_comparativo_geral[(df_comparativo_geral['ANO'] == years[0]) & (df_comparativo_geral['PRODUTO'] == produto)]['VL_MEDIO_VENDA'].apply(lambda x: str(x)),
+                hoverinfo= 'text',
+                mode= mode,
+                name = '{}'.format(years[0])
+            )
+        )   
         
         comp_graph.update_layout(
         barmode= 'group',
@@ -241,12 +237,12 @@ def line_3():
             orientation= 'h',
             font= dict(size= 15),
             x= 0.425,
-            y= 1.4),
-        height= 425,
+            y= 1.225),
+        height= 525,
         hoverlabel= dict(
             font= dict(color= 'white',
                         size= 14),
-            bgcolor= 'SteelBlue')
+            bgcolor= 'black')
     )
 
         comp_graph.update_xaxes(tickfont=dict(color='black', size= 14),
@@ -258,6 +254,67 @@ def line_3():
                         tickcolor= 'black',
                         tickprefix= 'R$ '
                         )
+        
+        pontos_x = df_comparativo_geral[(df_comparativo_geral['ANO'] == years[0]) & (df_comparativo_geral['PRODUTO'] == produto)]['NM_MES'].tolist()
+        
+        pontos_y = df_comparativo_geral[(df_comparativo_geral['ANO'] == years[0]) & (df_comparativo_geral['PRODUTO'] == produto)]['VL_MEDIO_VENDA']
+        
+    
+        for x, y in zip(pontos_x, pontos_y):
+                            
+            comp_graph.add_annotation(
+                text= "R$ {}".format(y),
+                x= x,
+                y= float(y),
+                showarrow= False,
+                arrowhead=0,
+                font= dict(
+                    size= 12.5,
+                    color= 'white'
+                ),
+                xref= 'x',
+                yref= 'y',
+                bgcolor= colors_comp[0],
+                bordercolor= colors_comp[0],
+                borderwidth= 2
+            )
+
+        # 2023
+        comp_graph.add_trace(
+            go.Scatter(
+                x= df_comparativo_geral[(df_comparativo_geral['ANO'] == years[1]) & (df_comparativo_geral['PRODUTO'] == produto)]['NM_MES'],
+                y= df_comparativo_geral[(df_comparativo_geral['ANO'] == years[1]) & (df_comparativo_geral['PRODUTO'] == produto)]['VL_MEDIO_VENDA'],
+                marker_color= colors_comp[1],
+                hovertext = "R$ " + df_comparativo_geral[(df_comparativo_geral['ANO'] == years[1]) & (df_comparativo_geral['PRODUTO'] == produto)]['VL_MEDIO_VENDA'].apply(lambda x: str(x)),
+                hoverinfo= 'text',
+                mode= mode,
+                name = '{}'.format(years[1])
+            )
+        )
+        
+        pontos_x = df_comparativo_geral[(df_comparativo_geral['ANO'] == years[1]) & (df_comparativo_geral['PRODUTO'] == produto)]['NM_MES'].tolist()
+        
+        pontos_y = df_comparativo_geral[(df_comparativo_geral['ANO'] == years[1]) & (df_comparativo_geral['PRODUTO'] == produto)]['VL_MEDIO_VENDA']
+        
+    
+        for x, y in zip(pontos_x, pontos_y):
+                            
+            comp_graph.add_annotation(
+                text= "R$ {}".format(y),
+                x= x,
+                y= float(y),
+                showarrow= False,
+                arrowhead=0,
+                font= dict(
+                    size= 12.5,
+                    color= 'black'
+                ),
+                xref= 'x',
+                yref= 'y',
+                bgcolor= colors_comp[1],
+                bordercolor= colors_comp[1],
+                borderwidth= 2
+            )
         
         # Plotando
         st.plotly_chart(comp_graph, use_container_width= True)
@@ -265,27 +322,26 @@ def line_3():
     # Condição estado selecionado e city todos
     elif state_select != 'TODOS' and city_select == None:
 
-        comp_graph = go.Figure(
-        data= [
-            go.Bar(
+        # 2022
+        comp_graph = go.Figure()
+        
+        comp_graph.add_trace(
+            go.Scatter(
                 x= df_comparativo_states[
-                    (df_comparativo_states['ANO'] == year) & (df_comparativo_states['PRODUTO'] == produto) & (df_comparativo_states['NM_ESTADO'] == state_select)
+                    (df_comparativo_states['ANO'] == years[0]) & (df_comparativo_states['PRODUTO'] == produto) & (df_comparativo_states['NM_ESTADO'] == state_select)
                     ]['NM_MES'],
                 y= df_comparativo_states[
-                    (df_comparativo_states['ANO'] == year) & (df_comparativo_states['PRODUTO'] == produto) & (df_comparativo_states['NM_ESTADO'] == state_select)
+                    (df_comparativo_states['ANO'] == years[0]) & (df_comparativo_states['PRODUTO'] == produto) & (df_comparativo_states['NM_ESTADO'] == state_select)
                     ]['VL_MEDIO_VENDA'],
-                marker_color= marker,
-                text = df_comparativo_states[(df_comparativo_states['ANO'] == year) & (df_comparativo_states['PRODUTO'] == produto)]['VL_MEDIO_VENDA'],
-                texttemplate= '%{y}',
-                hoverinfo= 'skip',
-                outsidetextfont= dict(color= color),
-                insidetextfont= dict(color= color_font),
-                textfont= dict(size= 11),
-                name = '{}'.format(year)
-                
-            ) for year, marker, color, color_font in zip(years, markers, colors_comp, colors_fonts)
-        ]
-    )
+                marker_color= colors_comp[0],
+                hovertext = "R$ " + df_comparativo_states[
+                    (df_comparativo_states['ANO'] == years[0]) & (df_comparativo_states['PRODUTO'] == produto) & (df_comparativo_states['NM_ESTADO'] == state_select)
+                    ]['VL_MEDIO_VENDA'].apply(lambda x: str(x)),
+                hoverinfo= 'text',
+                mode= mode,
+                name = '{}'.format(years[0])
+            )
+        )
         
         comp_graph.update_layout(
         barmode= 'group',
@@ -295,11 +351,11 @@ def line_3():
             font= dict(size= 15),
             x= 0.425,
             y= 1.4),
-        height= 425,
+        height= 525,
         hoverlabel= dict(
             font= dict(color= 'white',
                         size= 14),
-            bgcolor= 'SteelBlue')
+            bgcolor= 'black')
     )
 
         comp_graph.update_xaxes(tickfont=dict(color='black', size= 14),
@@ -311,34 +367,112 @@ def line_3():
                         tickcolor= 'black',
                         tickprefix= 'R$ '
                         )
+        
+        pontos_x = df_comparativo_states[
+                    (df_comparativo_states['ANO'] == years[0]) & (df_comparativo_states['PRODUTO'] == produto) & (df_comparativo_states['NM_ESTADO'] == state_select)
+                    ]['NM_MES'].tolist()
+        
+        pontos_y = df_comparativo_states[
+                    (df_comparativo_states['ANO'] == years[0]) & (df_comparativo_states['PRODUTO'] == produto) & (df_comparativo_states['NM_ESTADO'] == state_select)
+                    ]['VL_MEDIO_VENDA'].tolist()
+        
+    
+        for x, y in zip(pontos_x, pontos_y):
+                            
+            comp_graph.add_annotation(
+                text= "R$ {}".format(y),
+                x= x,
+                y= float(y),
+                showarrow= False,
+                arrowhead=0,
+                font= dict(
+                    size= 12.5,
+                    color= 'white'
+                ),
+                xref= 'x',
+                yref= 'y',
+                bgcolor= colors_comp[0],
+                bordercolor= colors_comp[0],
+                borderwidth= 2
+            )
+
+        # 2023        
+        comp_graph.add_trace(
+            go.Scatter(
+                x= df_comparativo_states[
+                    (df_comparativo_states['ANO'] == years[1]) & (df_comparativo_states['PRODUTO'] == produto) & (df_comparativo_states['NM_ESTADO'] == state_select)
+                    ]['NM_MES'],
+                y= df_comparativo_states[
+                    (df_comparativo_states['ANO'] == years[1]) & (df_comparativo_states['PRODUTO'] == produto) & (df_comparativo_states['NM_ESTADO'] == state_select)
+                    ]['VL_MEDIO_VENDA'],
+                marker_color= colors_comp[1],
+                hovertext = "R$ " + df_comparativo_states[
+                    (df_comparativo_states['ANO'] == years[1]) & (df_comparativo_states['PRODUTO'] == produto) & (df_comparativo_states['NM_ESTADO'] == state_select)
+                    ]['VL_MEDIO_VENDA'].apply(lambda x: str(x)),
+                hoverinfo= 'text',
+                mode= mode,
+                name = '{}'.format(years[1])
+            )
+        )
+        
+        pontos_x = df_comparativo_states[
+                    (df_comparativo_states['ANO'] == years[1]) & (df_comparativo_states['PRODUTO'] == produto) & (df_comparativo_states['NM_ESTADO'] == state_select)
+                    ]['NM_MES'].tolist()
+        
+        pontos_y = df_comparativo_states[
+                    (df_comparativo_states['ANO'] == years[1]) & (df_comparativo_states['PRODUTO'] == produto) & (df_comparativo_states['NM_ESTADO'] == state_select)
+                    ]['VL_MEDIO_VENDA'].tolist()
+        
+    
+        for x, y in zip(pontos_x, pontos_y):
+                            
+            comp_graph.add_annotation(
+                text= "R$ {}".format(y),
+                x= x,
+                y= float(y),
+                showarrow= False,
+                arrowhead=0,
+                font= dict(
+                    size= 12.5,
+                    color= 'white'
+                ),
+                xref= 'x',
+                yref= 'y',
+                bgcolor= colors_comp[1],
+                bordercolor= colors_comp[1],
+                borderwidth= 2
+            )
+
         
         # Plotando
         st.plotly_chart(comp_graph, use_container_width= True)
 
+    # Condição estado selecionado e city selecionado
     elif state_select != 'TODOS' and city_select != None:
 
-        comp_graph = go.Figure(
-        data= [
-            go.Bar(
+        # 2022
+        comp_graph = go.Figure()
+        
+        comp_graph.add_trace(
+            go.Scatter(
                 x= df_comparativo_citys[
-                    (df_comparativo_citys['ANO'] == year) & (df_comparativo_citys['PRODUTO'] == produto) & (df_comparativo_citys['NM_ESTADO'] == state_select) & (df_comparativo_citys['MUNICIPIO'] == city_select)
+                    (df_comparativo_citys['ANO'] == years[0]) & (df_comparativo_citys['PRODUTO'] == produto) & (df_comparativo_citys['NM_ESTADO'] == state_select) & (df_comparativo_citys['MUNICIPIO'] == city_select)
                     ]['NM_MES'],
                 y= df_comparativo_citys[
-                    (df_comparativo_citys['ANO'] == year) & (df_comparativo_citys['PRODUTO'] == produto) & (df_comparativo_citys['NM_ESTADO'] == state_select) & (df_comparativo_citys['MUNICIPIO'] == city_select)
+                    (df_comparativo_citys['ANO'] == years[0]) & (df_comparativo_citys['PRODUTO'] == produto) & (df_comparativo_citys['NM_ESTADO'] == state_select) & (df_comparativo_citys['MUNICIPIO'] == city_select)
                     ]['VL_MEDIO_VENDA'],
-                marker_color= marker,
-                text = df_comparativo_citys[(df_comparativo_citys['ANO'] == year) & (df_comparativo_citys['PRODUTO'] == produto)]['VL_MEDIO_VENDA'],
-                texttemplate= '%{y}',
-                hoverinfo= 'skip',
-                outsidetextfont= dict(color= color),
-                insidetextfont= dict(color= color_font),
-                textfont= dict(size= 11),
-                name = '{}'.format(year)
+                marker_color= colors_comp[0],
+                hovertext= "R$ " + df_comparativo_citys[
+                    (df_comparativo_citys['ANO'] == years[0]) & (df_comparativo_citys['PRODUTO'] == produto) & (df_comparativo_citys['NM_ESTADO'] == state_select) & (df_comparativo_citys['MUNICIPIO'] == city_select)
+                    ]['VL_MEDIO_VENDA'].apply(lambda x: str(x)),
+                hoverinfo= 'text',
+                mode= mode,
+                name = '{}'.format(years[0])
                 
-            ) for year, marker, color, color_font in zip(years, markers, colors_comp, colors_fonts)
-        ]
-    )
-        
+            )
+        )
+
+        # Layout
         comp_graph.update_layout(
         barmode= 'group',
         template= 'simple_white',
@@ -347,13 +481,14 @@ def line_3():
             font= dict(size= 15),
             x= 0.425,
             y= 1.4),
-        height= 425,
+        height= 525,
         hoverlabel= dict(
             font= dict(color= 'white',
                         size= 14),
             bgcolor= 'SteelBlue')
     )
 
+        # Axes
         comp_graph.update_xaxes(tickfont=dict(color='black', size= 14),
                         tickcolor= 'black'
                         #tickangle= -10
@@ -363,6 +498,83 @@ def line_3():
                         tickcolor= 'black',
                         tickprefix= 'R$ '
                         )
+        
+        # annotations
+        pontos_x = df_comparativo_citys[
+                    (df_comparativo_citys['ANO'] == years[0]) & (df_comparativo_citys['PRODUTO'] == produto) & (df_comparativo_citys['NM_ESTADO'] == state_select) & (df_comparativo_citys['MUNICIPIO'] == city_select)
+                    ]['NM_MES'].tolist()
+        
+        pontos_y = df_comparativo_citys[
+                    (df_comparativo_citys['ANO'] == years[0]) & (df_comparativo_citys['PRODUTO'] == produto) & (df_comparativo_citys['NM_ESTADO'] == state_select) & (df_comparativo_citys['MUNICIPIO'] == city_select)
+                    ]['VL_MEDIO_VENDA'].tolist()
+        
+    
+        for x, y in zip(pontos_x, pontos_y):
+                            
+            comp_graph.add_annotation(
+                text= "R$ {}".format(y),
+                x= x,
+                y= float(y),
+                showarrow= False,
+                arrowhead=0,
+                font= dict(
+                    size= 12.5,
+                    color= 'white'
+                ),
+                xref= 'x',
+                yref= 'y',
+                bgcolor= colors_comp[0],
+                bordercolor= colors_comp[0],
+                borderwidth= 2
+            )
+
+        # 2023        
+        comp_graph.add_trace(
+            go.Scatter(
+                x= df_comparativo_citys[
+                    (df_comparativo_citys['ANO'] == years[1]) & (df_comparativo_citys['PRODUTO'] == produto) & (df_comparativo_citys['NM_ESTADO'] == state_select) & (df_comparativo_citys['MUNICIPIO'] == city_select)
+                    ]['NM_MES'],
+                y= df_comparativo_citys[
+                    (df_comparativo_citys['ANO'] == years[1]) & (df_comparativo_citys['PRODUTO'] == produto) & (df_comparativo_citys['NM_ESTADO'] == state_select) & (df_comparativo_citys['MUNICIPIO'] == city_select)
+                    ]['VL_MEDIO_VENDA'],
+                marker_color= colors_comp[1],
+                hovertext= "R$ " + df_comparativo_citys[
+                    (df_comparativo_citys['ANO'] == years[1]) & (df_comparativo_citys['PRODUTO'] == produto) & (df_comparativo_citys['NM_ESTADO'] == state_select) & (df_comparativo_citys['MUNICIPIO'] == city_select)
+                    ]['VL_MEDIO_VENDA'].apply(lambda x: str(x)),
+                hoverinfo= 'text',
+                mode= mode,
+                name = '{}'.format(years[1])
+                
+            )
+        )
+        
+        pontos_x = df_comparativo_citys[
+                    (df_comparativo_citys['ANO'] == years[1]) & (df_comparativo_citys['PRODUTO'] == produto) & (df_comparativo_citys['NM_ESTADO'] == state_select) & (df_comparativo_citys['MUNICIPIO'] == city_select)
+                    ]['NM_MES'].tolist()
+        
+        pontos_y = df_comparativo_citys[
+                    (df_comparativo_citys['ANO'] == years[1]) & (df_comparativo_citys['PRODUTO'] == produto) & (df_comparativo_citys['NM_ESTADO'] == state_select) & (df_comparativo_citys['MUNICIPIO'] == city_select)
+                    ]['VL_MEDIO_VENDA'].tolist()
+        
+    
+        for x, y in zip(pontos_x, pontos_y):
+                            
+            comp_graph.add_annotation(
+                text= "R$ {}".format(y),
+                x= x,
+                y= float(y),
+                showarrow= False,
+                arrowhead=0,
+                font= dict(
+                    size= 12.5,
+                    color= 'white'
+                ),
+                xref= 'x',
+                yref= 'y',
+                bgcolor= colors_comp[1],
+                bordercolor= colors_comp[1],
+                borderwidth= 2
+            )
                 
         # Plotando
         st.plotly_chart(comp_graph, use_container_width= True)
