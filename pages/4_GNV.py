@@ -168,7 +168,7 @@ def line_2():
                 columns= {'VL_MEDIO_VENDA': 'VL_MEDIO_VENDA (R$)'}
             ),
             width= 500,
-            height= 600,
+            height= 425,
               use_container_width= False,
                 hide_index= True,
                 
@@ -227,7 +227,7 @@ def line_3():
                 hoverinfo= 'skip',
                 outsidetextfont= dict(color= color),
                 insidetextfont= dict(color= color_font),
-                textfont= dict(size= 10),
+                textfont= dict(size= 11),
                 name = '{}'.format(year)
                 
             ) for year, marker, color, color_font in zip(years, markers, colors_comp, colors_fonts)
@@ -280,7 +280,7 @@ def line_3():
                 hoverinfo= 'skip',
                 outsidetextfont= dict(color= color),
                 insidetextfont= dict(color= color_font),
-                textfont= dict(size= 10),
+                textfont= dict(size= 11),
                 name = '{}'.format(year)
                 
             ) for year, marker, color, color_font in zip(years, markers, colors_comp, colors_fonts)
@@ -295,7 +295,7 @@ def line_3():
             font= dict(size= 15),
             x= 0.425,
             y= 1.4),
-        height= 3425
+        height= 425,
         hoverlabel= dict(
             font= dict(color= 'white',
                         size= 14),
@@ -332,7 +332,7 @@ def line_3():
                 hoverinfo= 'skip',
                 outsidetextfont= dict(color= color),
                 insidetextfont= dict(color= color_font),
-                textfont= dict(size= 10),
+                textfont= dict(size= 11),
                 name = '{}'.format(year)
                 
             ) for year, marker, color, color_font in zip(years, markers, colors_comp, colors_fonts)
@@ -347,7 +347,7 @@ def line_3():
             font= dict(size= 15),
             x= 0.425,
             y= 1.4),
-        height= 600,
+        height= 425,
         hoverlabel= dict(
             font= dict(color= 'white',
                         size= 14),
