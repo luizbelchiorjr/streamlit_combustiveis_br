@@ -16,13 +16,13 @@ produto = 'GASOLINA'
 @st.cache_data
 def load_data():
 
-    df = pd.read_csv('df_states.csv', sep= ';')
-    df_years = pd.read_csv('df_years.csv', sep= ';')
-    df_comparativo_geral = pd.read_csv('df_comparativo_geral.csv', sep= ';')
-    df_comparativo_states = pd.read_csv('df_comparativo_states.csv', sep= ';')
-    df_comparativo_citys = pd.read_csv('df_comparativo_citys.csv', sep= ';')
-    df_map = pd.read_csv('df_map.csv', sep= ';')
-    geojson = json.load(open('brasil_estados.json'))
+    df = pd.read_csv('./data/df_states.csv', sep= ';')
+    df_years = pd.read_csv('./data/df_years.csv', sep= ';')
+    df_comparativo_geral = pd.read_csv('./data/df_comparativo_geral.csv', sep= ';')
+    df_comparativo_states = pd.read_csv('./data/df_comparativo_states.csv', sep= ';')
+    df_comparativo_citys = pd.read_csv('./data/df_comparativo_citys.csv', sep= ';')
+    df_map = pd.read_csv('./data/df_map.csv', sep= ';')
+    geojson = json.load(open('./data/brasil_estados.json'))
 
     return df, df_years, df_comparativo_geral, df_comparativo_citys, df_comparativo_states, df_map, geojson
 
@@ -158,7 +158,7 @@ def line_2():
 
     with col1:
 
-        mapa_image = Image.open('mapa_{}.png'.format(produto))
+        mapa_image = Image.open('./assets/mapa_{}.png'.format(produto))
         st.image(mapa_image)
 
     with col2:
@@ -223,10 +223,11 @@ def line_3():
                 y= df_comparativo_geral[(df_comparativo_geral['ANO'] == year) & (df_comparativo_geral['PRODUTO'] == produto)]['VL_MEDIO_VENDA'],
                 marker_color= marker,
                 text = df_comparativo_geral[(df_comparativo_geral['ANO'] == year) & (df_comparativo_geral['PRODUTO'] == produto)]['VL_MEDIO_VENDA'],
+                texttemplate= '%{y}',
                 hoverinfo= 'skip',
                 outsidetextfont= dict(color= color),
                 insidetextfont= dict(color= color_font),
-                textfont= dict(size= 12),
+                textfont= dict(size= 11),
                 name = '{}'.format(year)
                 
             ) for year, marker, color, color_font in zip(years, markers, colors_comp, colors_fonts)
@@ -241,7 +242,7 @@ def line_3():
             font= dict(size= 15),
             x= 0.425,
             y= 1.4),
-        height= 600,
+        height= 500,
         hoverlabel= dict(
             font= dict(color= 'white',
                         size= 14),
@@ -279,7 +280,7 @@ def line_3():
                 hoverinfo= 'skip',
                 outsidetextfont= dict(color= color),
                 insidetextfont= dict(color= color_font),
-                textfont= dict(size= 12),
+                textfont= dict(size= 11),
                 name = '{}'.format(year)
                 
             ) for year, marker, color, color_font in zip(years, markers, colors_comp, colors_fonts)
@@ -294,7 +295,7 @@ def line_3():
             font= dict(size= 15),
             x= 0.425,
             y= 1.4),
-        height= 600,
+        height= 500,
         hoverlabel= dict(
             font= dict(color= 'white',
                         size= 14),
@@ -331,7 +332,7 @@ def line_3():
                 hoverinfo= 'skip',
                 outsidetextfont= dict(color= color),
                 insidetextfont= dict(color= color_font),
-                textfont= dict(size= 12),
+                textfont= dict(size= 11),
                 name = '{}'.format(year)
                 
             ) for year, marker, color, color_font in zip(years, markers, colors_comp, colors_fonts)
