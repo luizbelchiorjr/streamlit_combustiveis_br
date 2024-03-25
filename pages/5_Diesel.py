@@ -227,7 +227,7 @@ def line_3():
                 hoverinfo= 'skip',
                 outsidetextfont= dict(color= color),
                 insidetextfont= dict(color= color_font),
-                textfont= dict(size= 11),
+                textfont= dict(size= 10),
                 name = '{}'.format(year)
                 
             ) for year, marker, color, color_font in zip(years, markers, colors_comp, colors_fonts)
@@ -280,7 +280,7 @@ def line_3():
                 hoverinfo= 'skip',
                 outsidetextfont= dict(color= color),
                 insidetextfont= dict(color= color_font),
-                textfont= dict(size= 11),
+                textfont= dict(size= 10),
                 name = '{}'.format(year)
                 
             ) for year, marker, color, color_font in zip(years, markers, colors_comp, colors_fonts)
