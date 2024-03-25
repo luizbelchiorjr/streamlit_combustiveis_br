@@ -165,10 +165,10 @@ def line_2():
 
         st.dataframe(
             data= df_map[df_map['PRODUTO'] == produto][['NM_ESTADO', 'PRODUTO', 'VL_MEDIO_VENDA']].sort_values('VL_MEDIO_VENDA', ascending= False).rename(
-                {'VL_MEDIO_VENDA': 'VL_MEDIO_VENDA (R$)'}
+                columns= {'VL_MEDIO_VENDA': 'VL_MEDIO_VENDA (R$)'}
             ),
             width= 500,
-            height= 500,
+            height= 600,
               use_container_width= False,
                 hide_index= True,
                 
@@ -242,7 +242,7 @@ def line_3():
             font= dict(size= 15),
             x= 0.425,
             y= 1.4),
-        height= 500,
+        height= 425,
         hoverlabel= dict(
             font= dict(color= 'white',
                         size= 14),
@@ -295,7 +295,7 @@ def line_3():
             font= dict(size= 15),
             x= 0.425,
             y= 1.4),
-        height= 500,
+        height= 3425
         hoverlabel= dict(
             font= dict(color= 'white',
                         size= 14),
@@ -347,7 +347,7 @@ def line_3():
             font= dict(size= 15),
             x= 0.425,
             y= 1.4),
-        height= 500,
+        height= 600,
         hoverlabel= dict(
             font= dict(color= 'white',
                         size= 14),

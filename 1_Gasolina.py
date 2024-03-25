@@ -242,7 +242,7 @@ def line_3():
             font= dict(size= 15),
             x= 0.425,
             y= 1.4),
-        height= 500,
+        height= 425,
         hoverlabel= dict(
             font= dict(color= 'white',
                         size= 14),
@@ -295,7 +295,7 @@ def line_3():
             font= dict(size= 15),
             x= 0.425,
             y= 1.4),
-        height= 500,
+        height= 3425
         hoverlabel= dict(
             font= dict(color= 'white',
                         size= 14),
