@@ -297,35 +297,35 @@ def line_3():
         pontos_y = df_comparativo_geral[(df_comparativo_geral['ANO'] == years[1]) & (df_comparativo_geral['PRODUTO'] == produto)]['VL_MEDIO_VENDA']
 
         pontos_y_2022 = df_comparativo_geral[(df_comparativo_geral['ANO'] == years[0]) & (df_comparativo_geral['PRODUTO'] == produto)]['VL_MEDIO_VENDA']
-        
     
         for x, y, y_22 in zip(pontos_x, pontos_y, pontos_y_2022):
 
-            dif = y - y_22
+            dif = abs(y - y_22)  # Abs() para garantir que a diferença seja sempre positiva
 
-            if dif < 0 :
-                dif = -(dif)
-                # y_22 > y 
-                # Então 
+            if dif < 0.3:
 
+                if y > y_22:
+                    ax = 0
+                    ay = -30  # Rótulo para cima
+                    showarrow = True
+
+                elif y < y_22:
+                    ax = 0
+                    ay = 30  # Rótulo para baixo
+                    showarrow = True
             else:
-                dif = dif
-
-            if dif < 1 and y < y_22 == True:
-                arrowhead = -1
-
-            elif dif < 1 and y < y_22 == False:
-                arrowhead = 1
-
-            else:
-                arrowhead = 0
+                ax = 0
+                ay = 0
+                showarrow = False                
                             
             comp_graph.add_annotation(
                 text= "R$ {}".format(y),
                 x= x,
                 y= float(y),
-                showarrow= False,
-                arrowhead=arrowhead,
+                showarrow= showarrow,
+                arrowhead= 0,
+                ax= ax,
+                ay= ay,
                 font= dict(
                     size= 12.5,
                     color= 'black'
@@ -444,36 +444,39 @@ def line_3():
                     (df_comparativo_states['ANO'] == years[1]) & (df_comparativo_states['PRODUTO'] == produto) & (df_comparativo_states['NM_ESTADO'] == state_select)
                     ]['VL_MEDIO_VENDA'].tolist()
         
-        pontos_y_2022 = df_comparativo_geral[(df_comparativo_geral['ANO'] == years[0]) & (df_comparativo_geral['PRODUTO'] == produto)]['VL_MEDIO_VENDA']
+        pontos_y_2022 = df_comparativo_states[
+                    (df_comparativo_states['ANO'] == years[0]) & (df_comparativo_states['PRODUTO'] == produto) & (df_comparativo_states['NM_ESTADO'] == state_select)
+                    ]['VL_MEDIO_VENDA'].tolist()
         
     
         for x, y, y_22 in zip(pontos_x, pontos_y, pontos_y_2022):
 
-            dif = y - y_22
+            dif = abs(y - y_22)  # Abs() para garantir que a diferença seja sempre positiva
 
-            if dif < 0 :
-                dif = -(dif)
-                # y_22 > y 
-                # Então 
+            if dif < 0.3:
 
+                if y > y_22:
+                    ax = 0
+                    ay = -30  # Rótulo para cima
+                    showarrow = True
+
+                elif y < y_22:
+                    ax = 0
+                    ay = 30  # Rótulo para baixo
+                    showarrow = True
             else:
-                dif = dif
-
-            if dif < 1 and y < y_22 == True:
-                arrowhead = -1
-
-            elif dif < 1 and y < y_22 == False:
-                arrowhead = 1
-                
-            else:
-                arrowhead = 0
+                ax = 0
+                ay = 0
+                showarrow = False                
                             
             comp_graph.add_annotation(
                 text= "R$ {}".format(y),
                 x= x,
                 y= float(y),
-                showarrow= False,
-                arrowhead=arrowhead,
+                showarrow= showarrow,
+                arrowhead= 0,
+                ax= ax,
+                ay= ay,
                 font= dict(
                     size= 12.5,
                     color= 'black'
@@ -598,35 +601,39 @@ def line_3():
                     ]['VL_MEDIO_VENDA'].tolist()
         
     
-        pontos_y_2022 = df_comparativo_geral[(df_comparativo_geral['ANO'] == years[0]) & (df_comparativo_geral['PRODUTO'] == produto)]['VL_MEDIO_VENDA']
+        pontos_y_2022 = df_comparativo_citys[
+                    (df_comparativo_citys['ANO'] == years[0]) & (df_comparativo_citys['PRODUTO'] == produto) & (df_comparativo_citys['NM_ESTADO'] == state_select) & (df_comparativo_citys['MUNICIPIO'] == city_select)
+                    ]['VL_MEDIO_VENDA'].tolist()
+        
     
         for x, y, y_22 in zip(pontos_x, pontos_y, pontos_y_2022):
 
-            dif = y - y_22
+            dif = abs(y - y_22)  # Abs() para garantir que a diferença seja sempre positiva
 
-            if dif < 0 :
-                dif = -(dif)
-                # y_22 > y 
-                # Então 
+            if dif < 0.3:
 
+                if y > y_22:
+                    ax = 0
+                    ay = -30  # Rótulo para cima
+                    showarrow = True
+
+                elif y < y_22:
+                    ax = 0
+                    ay = 30  # Rótulo para baixo
+                    showarrow = True
             else:
-                dif = dif
-
-            if dif < 1 and y < y_22 == True:
-                arrowhead = -1
-
-            elif dif < 1 and y < y_22 == False:
-                arrowhead = 1
-                
-            else:
-                arrowhead = 0
+                ax = 0
+                ay = 0
+                showarrow = False                
                             
             comp_graph.add_annotation(
                 text= "R$ {}".format(y),
                 x= x,
                 y= float(y),
-                showarrow= False,
-                arrowhead=arrowhead,
+                showarrow= showarrow,
+                arrowhead= 0,
+                ax= ax,
+                ay= ay,
                 font= dict(
                     size= 12.5,
                     color= 'black'
